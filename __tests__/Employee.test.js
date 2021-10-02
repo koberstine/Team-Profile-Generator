@@ -1,14 +1,14 @@
 const Employee = require('../lib/Employee.js');
 
-test('creates a employee object', () => {
+test('creates an employee object', () => {
   const employee = new Employee('Test Employee', '001', 'test@test.com');
 
   expect(employee.name).toBe('Test Employee');
   expect(employee.id).toBe('001');
-  expect(employee.email).toBe('test@test.com')
+  expect(employee.email).toBe('test@test.com');
 });
 
-test("gets employee's info as an object", () => {
+test("gets employee's info through methods", () => {
   const employee = new Employee('Test Employee', '001', 'test@test.com');
   
   expect(employee.getName()).toBe(employee.name);
