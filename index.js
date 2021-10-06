@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-// const fs = require('fs');
+const fs = require('fs');
 const generateHTML = require('./utils/generateHTML');
 
 const Manager = require('./lib/Manager');
@@ -10,14 +10,14 @@ const managers = [];
 const engineers = []
 const interns = []
 
-function writeToFile(fileName, managers, engineers, interns) {
-  // fs.writeFile(fileName, 
-    generateHTML(managers, engineers, interns)
-    // , err => {
-    // if (err) throw err;
+function writeToFile(fileName, teamName, managers, engineers, interns) {
+  fs.writeFile(fileName, 
+    generateHTML(teamName, managers, engineers, interns)
+      , err => {
+      if (err) throw err;
 
     console.log(`HTML file generated! Check out ${fileName} to see output!`)
-  // });
+  });
 }
 
 function teamBuilder() {
@@ -49,11 +49,17 @@ function teamBuilder() {
               type: 'input',
               name: 'fileName',
               message: 'What do you want to name this file? Default is team.html',
-              default: 'team.html'
+              default: 'my-team.html'
+            },
+            {
+              type: 'input',
+              name: 'teamName',
+              message: 'What do you want to name this team? Default is My Team',
+              default: 'My Team'
             }
           ])
           .then((answers) => {
-            writeToFile(answers.fileName, managers, engineers, interns)
+            writeToFile(answers.fileName, answers.teamName, managers, engineers, interns)
           })
           .catch((error) => {
               console.log(error);
@@ -68,13 +74,13 @@ function teamBuilder() {
   });
 }
 
-function newEmployee(type) {
+function newEmployee(role) {
   inquirer
     .prompt([
       {
         type: 'input',
         name: 'name',
-        message: `What is the ${type}'s name?`,
+        message: `What is the ${role}'s name?`,
         validate: nameInput => {
           if (nameInput) {
             return true;
@@ -87,7 +93,7 @@ function newEmployee(type) {
       {
         type: 'input',
         name: 'id',
-        message: `What is the ${type}\'s id?`,
+        message: `What is the ${role}\'s id?`,
         validate: idInput => {
           if (idInput) {
             return true;
@@ -100,7 +106,7 @@ function newEmployee(type) {
       {
         type: 'input',
         name: 'email',
-        message: `What is the ${type}\'s email address?`,
+        message: `What is the ${role}\'s email address?`,
         validate: emailInput => {
           if (emailInput) {
             return true;
@@ -122,7 +128,7 @@ function newEmployee(type) {
             return false;
           }
         },
-        when: type == 'manager'
+        when: role == 'manager'
       },
       {
         type: 'input',
@@ -136,7 +142,7 @@ function newEmployee(type) {
             return false;
           }
         },
-        when: type == 'engineer'
+        when: role == 'engineer'
       },
       {
           type: 'input',
@@ -150,25 +156,22 @@ function newEmployee(type) {
               return false;
             }
           },
-          when: type == 'intern'
+          when: role == 'intern'
         }
     ])
     .then ((answers) => {
-      switch(type) {
+      switch(role) {
         case 'manager':
           const manager = new Manager(answers.name, answers.id, answers.email, answers.roleSpecific);
           managers.push(manager)
-          console.log(managers)
           break;
         case 'engineer':
           const engineer = new Engineer(answers.name, answers.id, answers.email, answers.roleSpecific);
           engineers.push(engineer)
-          console.log(engineers)
           break;
         case 'intern':
           const intern = new Intern(answers.name, answers.id, answers.email, answers.roleSpecific);
           interns.push(intern)
-          console.log(interns)
         default:
           break;
       }
