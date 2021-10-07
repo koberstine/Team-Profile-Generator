@@ -1,0 +1,39 @@
+header {
+  padding: 20px 35px;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+header h1 {
+  font-weight: bold;
+  margin: 0;
+  font-size: 36px;
+  color: white;
+}
+
+.flex-row {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.heading {
+  background-color: blue;
+  color: white;
+}
+
+.heading h2 {
+  padding: 10px 30px;
+  margin: 0px;
+}
+
+.container {
+  border: 2px solid black;
+  margin: 30px;
+}
+
+.container p {
+  padding: 10px 30px;
+  margin: 0px;
+}

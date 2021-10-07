@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const generateHTML = require('./utils/generateHTML');
+const generateHTML = require('./src/generateHTML');
 
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
@@ -11,12 +11,12 @@ const engineers = []
 const interns = []
 
 function writeToFile(fileName, teamName, managers, engineers, interns) {
-  fs.writeFile(fileName, 
+  fs.writeFile('./dist/'+fileName, 
     generateHTML(teamName, managers, engineers, interns)
       , err => {
       if (err) throw err;
 
-    console.log(`HTML file generated! Check out ${fileName} to see output!`)
+    console.log(`HTML file generated! Check out /dist/${fileName} to see output!`)
   });
 }
 
